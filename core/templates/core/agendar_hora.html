@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+<!-- Call Section Begin -->
+<section class="call spad set-bg" data-setbg="{% static 'core/img/about/call-bg.jpg' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 col-md-6">
+                <div class="call__text">
+                    <div class="section-title">
+                        <h2>Request A Call Back</h2>
+                        <p>Posters had been a very beneficial marketing tool because it had paved to deliver an
+                            effective message that conveyed customer’s</p>
+                    </div>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+            <div class="col-lg-6 offset-lg-1 col-md-6">
+                <form action="#" class="call__form">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" placeholder="Name">
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" placeholder="Email">
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" placeholder="Phone">
+                        </div>
+                        <div class="col-lg-6">
+                            <select>
+                                <option value="">Selecciona Servicio</option>
+                                <option value="">...........</option>
+                                <option value="">.........</option>
+                                <option value="">...........</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="site-btn">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Call Section End -->
+{% endblock %}

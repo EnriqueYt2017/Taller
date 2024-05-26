@@ -1,0 +1,222 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<!--INICIO BANNER-->
+<section class="hero spad set-bg" data-setbg="{% static 'core/img/hero-bg.jpg' %}">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-7">
+        <div class="hero__text">
+          <div class="hero__text__title">
+            <span>Bienvenido</span>
+            <h2>Taller Rayo Mackween</h2>
+          </div>
+          <div class="hero__text__price">
+            <div class="car-model">Trabajos Hechos</div>
+          </div>
+
+          <a href="{% url 'listado_autos' %}" class="primary-btn more-btn">Listado de Autos</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+<!--FIN BANNER-->
+
+<!--DESCRIPCION TALLER-->
+</div>
+<div class="p-5 bg-dark text-white text-center">
+  <h1>Trabajos Recientes</h1>
+</div>
+<!--FIN DESCRIPCION TALLER-->
+
+<!--INICIO CAROUSEL-->
+<div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+  <!-- Indicators/dots -->
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+  </div>
+
+  <!-- The slideshow/carousel -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'core/img/CarruselRevisión1.jpg' %}" alt="" class="d-block mx-auto">
+      <div class="carousel-caption">
+        <h3>Camaro ss 2014</h3>
+        <a href="trabajos_hechos.html">
+          <button type="button" class="btn">Mas Informacion</button>
+        </a>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'core/img/CarruselRevisión2.jpg' %}" alt="" class="d-block mx-auto">
+      <div class="carousel-caption">
+        <h3>Nissan np 300 2017</h3>
+        <a href="trabajos_hechos.html">
+          <button type="button" class="btn">Mas Informacion</button>
+        </a>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'core/img/CarruselRevisión3.jpg' %}" alt="" class="d-block mx-auto">
+      <div class="carousel-caption">
+        <h3>Chevrolet spark lt 2014</h3>
+        <a href="trabajos_hechos.html">
+          <button type="button" class="btn">Mas Informacion</button>
+        </a>
+      </div>
+    </div>
+  </div>
+  <style>
+    .carousel-item h3 {
+      color: white;
+    }
+  </style>
+
+  <!-- Left and right controls/icons -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+<!--FIN CAROUSEL-->
+
+<!--INICIO SERVICIOS-->
+<div class="container">
+  <section id="Chapters">
+    <h2 class="mt-5 text-center">Nuestra Especialidad</h2>
+    <div class="row my-5 text-center">
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/caja_de_cambios.webp' %}" alt="" width="300px" height="300px">
+        <h4> Cajas de Cambio</h4>
+        <p>La caja de cambios es un elemento en los vehículos que se encarga de obtener en las ruedas el par motor,
+          suficiente para poner en movimiento el vehículo parado, y una vez en marcha obtener
+          un par suficiente en ellas para vencer las resistencias al avance</p>
+        <p> Su función es cambiar las relaciones de transmisión para permitir
+          que el vehículo acelere y cambie de velocidades adecuadamente.</p>
+
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/electronica_automotriz.gif' %}" alt="" width="300px" height="300px">
+        <h4>Electrónica Automotriz</h4>
+        <p>La electrónica automotriz es una rama de la ingeniería electrónica que se ocupa
+          de los sistemas electrónicos que se utilizan en los vehículos</p>
+        <p>La electrónica automotriz es una rama de la ingeniería electrónica que se ocupa
+          de los sistemas electrónicos que se utilizan en los vehículos</p>
+        <p>La electrónica automotriz también se enfoca en detectar y reparar los fallos del
+          circuito eléctrico de carga, arranque, luces y accesorios del vehículo.</p>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/suspencion_y_direccion.jpeg' %}" alt="" width="300px" height="300px">
+        <h4>Suspensión y Dirección</h4>
+        <p>Las rótulas de dirección: Proporcionan orientación precisa y mantiene la
+          estabilidad de la dirección en las curvas.</p>
+        <p>Las rótulas de suspensión:
+          Permiten un buen movimiento de las piezas de la suspensión. Los brazos y horquillas
+          de suspensión: Se fijan a las ruedas, pueden guiarlas y mantenerlas
+          en ángulo recto a la superficie de la carretera.</p>
+      </div>
+    </div>
+  </section>
+</div>
+<!--FIN SERVICIOS-->
+
+<!--SEPARACION-->
+</div>
+<div class="p-1 bg-dark text-white text-center">
+</div>
+<!--SEPARACION-->
+<!-- Chooseus Section Begin -->
+<section class="chooseus spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="chooseus__text">
+          <div class="section-title">
+            <h2>PORQUE ELEGUIR ESTE TALLER?</h2>
+            <p>Cada uno de nuestros mecanicos aportan con su experiencia y habilidades particulares para realizar un
+              servicio completo
+              a nuestros clientes. Ellos son los expertos que mantienen nuestros automoviles en movimiento y seguros
+              en la carretera.
+            </p>
+          </div>
+          <ul>
+            <li><i class=""></i> Contamos con 3 tecnicos certificados :
+            </li>
+            <li><i class="fa fa-check-circle"></i> Experimentado en Caja de Cambios.
+            </li>
+            <li><i class="fa fa-check-circle"></i> Experimentado en Electronica Automotriz.
+            </li>
+            <li><i class="fa fa-check-circle"></i> Experimentado en Suspensión y Dirección.
+            </li>
+          </ul>
+          <a href="#" class="primary-btn">Mas Informacion</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="chooseus__video set-bg">
+    <img src="{% static 'core/img/chooseus-video.png' %}" alt="">
+    <a href="{% static 'core/img/presentacion-video..mp4' %}" class="play-btn video-popup"><i
+        class="fa fa-play"></i></a>
+  </div>
+</section>
+<!-- Chooseus Section End -->
+
+
+
+<!--INICIO MARCAS-->
+<div class="container">
+  <section id="Chapters">
+    <h2 class="mt-5 text-center">MARCAS</h2>
+    <div class="row my-5 text-center">
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/logo_camaro.jp' %}" alt="" width="auto" height="100">
+        <h4> CAMARO</h4>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/logo_changan.jpeg' %}" alt="" width="auto" height="100">
+        <h4>CHANGAN</h4>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/hyundai-logo.jpg' %}" alt="" width="auto" height="100">
+        <h4>HYUNDAI</h4>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/audi_logo.jpeg' %}" alt="" width="auto" height="100">
+        <h4>AUDI</h4>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/Chevrolet-logo-5.jpg' %}" alt="" width="auto" height="100">
+        <h4>CHEVROLET</h4>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/logo_bmw.jpeg' %}" alt="" width="auto" height="100">
+        <h4>B M W</h4>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/renault_logo.jpeg' %}" alt="" width="150" height="100">
+        <h4>RENAUL</h4>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/nissan-logo-black.jpg' %}" alt="" width="auto" height="100">
+        <h4>NISSAN</h4>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4">
+        <img src="{% static 'core/img/honda_logo.jpg' %}" alt="" width="150" height="100">
+        <h4>HONDA</h4>
+      </div>
+    </div>
+  </section>
+</div>
+</div>
+<!--FIN MARCAS-->
+{% endblock %}

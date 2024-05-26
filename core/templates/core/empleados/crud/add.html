@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+<body>
+    {% load crispy_forms_tags %}
+    <form class="form-add" action="" method="POST" enctype="multipart/form-data">
+            <h4 style="text-align: center; margin-bottom: 10px;">AGREGAR USUARIO</h4>
+            {% csrf_token %}
+            <table class="table-add">
+                {{ form | crispy }}
+            </table>
+        <input class="btn btn-danger" type="reset" value="Limpiar">
+        <input class="btn btn-success" type="submit" value="Guardar">
+        <h5>{{ msj }}</h5>
+    </form>
+</body>
+    
+<style>
+    table{
+        justify-content: center;
+        text-align: center;  
+        padding-bottom: 10px;      
+    }
+
+    body{
+        background-color: #e6e6e6;
+    }
+    form{
+        width:400px;
+        height:auto;
+        background:#e6e6e6;
+        border-radius:8px;
+        box-shadow:0 0 40px -10px #000;
+        margin:calc(50vh - 220px) auto;
+        padding:20px 30px;
+        max-width:calc(100vw - 40px);
+        box-sizing:border-box;
+        font-family:'Montserrat',sans-serif;
+        position:relative}
+
+    input{
+        margin-top: 10px;
+        justify-content: center;
+    }
+    .btn{
+        margin-top: 10px;
+        justify-content: center;
+    }
+</style>
+{% endblock %}
