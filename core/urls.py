@@ -30,6 +30,6 @@ urlpatterns = [
     # VEHICULOS
     path('vehiculos', vehiculos, name="vehiculos"),
     path('vehiculos/add/', vehiculosadd, name="vehiculosadd"),
-    path('vehiculos/update/<nombre>', vehiculosupdate, name="vehiculosupdate"),
-    path('vehiculos/delete/<nombre>', vehiculosdelete, name="vehiculosdelete"),
+    path('vehiculos/update/<propietario>', vehiculosupdate, name="vehiculosupdate"),
+    path('vehiculos/delete/<propietario>', vehiculosdelete, name="vehiculosdelete"),
 ]

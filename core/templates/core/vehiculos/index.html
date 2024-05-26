@@ -2,6 +2,7 @@
 {% load static %}
 {% block contenido %}
 <!-- Breadcrumb End -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="breadcrumb-option set-bg" data-setbg="{% static 'core/img/breadcrumb-bg.jpg' %}">
     <div class="container">
         <div class="row">
@@ -43,10 +44,8 @@
                                 <option value="">Bugatti</option>
                             </select>
                             <select>
-                                <option data-display="Model">Select Model</option>
-                                <option value="">Q3</option>
-                                <option value="">A4 </option>
-                                <option value="">AVENTADOR</option>
+                                <option data-display="Model">{{ aux.marca }}</option>
+                                <option value="">{{ aux.marca }}</option>
                             </select>
                             <select>
                                 <option value="">Body Style</option>
@@ -122,9 +121,6 @@
                         <div class="car__item">
                             <div class="car__item__pic__slider owl-carousel">
                                 <img src="{{ aux.image.url }}" alt="">
-                                <img src="{{ aux.image.url }}" alt="">
-                                <img src="{{ aux.image.url }}" alt="">
-                                <img src="{{ aux.image.url }}" alt="">
                             </div>
                             <div class="car__item__text">
                                 <div class="car__item__text__inner">
@@ -137,15 +133,16 @@
                                     </ul>
                                 </div>
                                 <div class="car__item__price">
-                                    <a href="""><button type="button"
+                                    <a href="{% url 'vehiculosupdate' aux.propietario %}""><button type="button"
                                         class="fa fa-edit btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light" ></button></a>
-            
-                                    <a href="""><button type="button"
-                                        class="fa fa-trash btn btn-danger mt-3 btn-rounded waves-effect w-md waves-light"></button></a>
+                                        
+                                        <a href="{% url 'vehiculosdelete' aux.propietario %}""><button type="button"
+                                            class="fa fa-trash btn btn-danger mt-3 btn-rounded waves-effect w-md waves-light"></button></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                            {% endfor %}
                     
                 <div class="pagination__option">
                     <a href="#" class="active">1</a>
@@ -154,7 +151,6 @@
                     <a href="#"><span class="arrow_carrot-2right"></span></a>
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
 </section>

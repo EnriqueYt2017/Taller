@@ -168,7 +168,7 @@ def vehiculosupdate(request):
             aux['msj'] = 'Error al Modificar'
     return render(request, 'core/vehiculos/crud/update.html', aux)
 
-def vehiculosdelete(request):
-    vehiculos = Vehiculo.objects.get(nombre=nombre)
+def vehiculosdelete(request, propietario):
+    vehiculos = Vehiculo.objects.get(propietario=propietario)
     vehiculos.delete()
     return redirect(to="vehiculos")
