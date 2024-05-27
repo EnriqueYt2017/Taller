@@ -27,6 +27,12 @@ class GeneroForm(ModelForm):
         model = Genero
         fields = '__all__'
 
+class MantenimientoForm(ModelForm):
+
+    class Meta:
+        model = Mantenimiento
+        fields = '__all__'
+
 class TipoEmpleadoForm(ModelForm):
 
     class Meta:

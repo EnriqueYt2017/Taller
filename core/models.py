@@ -45,3 +45,20 @@ class Empleado(models.Model):
     def __str__(self) -> str:
         return self.nombre
 
+
+class Mantenimiento(models.Model):
+    fecha_revision = models.DateTimeField(auto_now_add=True)
+    descripcion = models.CharField(max_length = 50)
+
+    def __str__(self) -> str:
+        return self.descripcion
+
+class AgendarHora(models.Model):
+    nombre = models.CharField(max_length = 50)
+    email = models.CharField(max_length = 50)
+    capacidad = models.IntegerField(default=0)
+    servicio = models.CharField(max_length = 50)
+
+    def __str__(self) -> str:
+        return self.nombre
+

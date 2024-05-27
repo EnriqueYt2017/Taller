@@ -16,7 +16,7 @@
             <div class="car-model">Trabajos Hechos</div>
           </div>
 
-          <a href="{% url 'listado_autos' %}" class="primary-btn more-btn">Listado de Autos</a>
+          <a href="{% url 'vehiculos' %}" class="primary-btn more-btn">Listado de Autos</a>
         </div>
       </div>
     </div>
@@ -44,34 +44,18 @@
   </div>
 
   <!-- The slideshow/carousel -->
+  {% for aux in lista %}
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="{% static 'core/img/CarruselRevisión1.jpg' %}" alt="" class="d-block mx-auto">
+      <img src="{{ aux.image.url }}" alt="" class="d-block mx-auto">
       <div class="carousel-caption">
-        <h3>Camaro ss 2014</h3>
-        <a href="trabajos_hechos.html">
+        <h3>{{ aux.marca }}</h3>
+        <a href="{% url 'vehiculos' %}">
           <button type="button" class="btn">Mas Informacion</button>
         </a>
       </div>
     </div>
-    <div class="carousel-item">
-      <img src="{% static 'core/img/CarruselRevisión2.jpg' %}" alt="" class="d-block mx-auto">
-      <div class="carousel-caption">
-        <h3>Nissan np 300 2017</h3>
-        <a href="trabajos_hechos.html">
-          <button type="button" class="btn">Mas Informacion</button>
-        </a>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img src="{% static 'core/img/CarruselRevisión3.jpg' %}" alt="" class="d-block mx-auto">
-      <div class="carousel-caption">
-        <h3>Chevrolet spark lt 2014</h3>
-        <a href="trabajos_hechos.html">
-          <button type="button" class="btn">Mas Informacion</button>
-        </a>
-      </div>
-    </div>
+    {% endfor %}
   </div>
   <style>
     .carousel-item h3 {

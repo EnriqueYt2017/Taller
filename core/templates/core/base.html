@@ -1,6 +1,7 @@
 {%load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,16 +78,21 @@
                         <a class="nav-link" href="{% url 'empleados' %}">Usuarios</a>
                     </li>
                     {% endif %}
-                    
+
                     <!--SOLO PERMITIDO MECANICO-->
+                    {% if perms.core.grupos.empleado %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'vehiculosadd' %}">Agregar Auto</a>
                     </li>
                     {% endif %}
+
+                    {% endif %}
                 </ul>
             </div>
+            <!--SOLO PERMITIDO USUARIO-->
             <div class="row align-items-center">
                 <a href="{% url 'agendar_hora' %}" class="primary-btn w-auto">Agendar Hora</a>
+            <!--END-->
                 {% if user.is_authenticated %}
                 <div class="w-auto">
                     <div class="dropdown">
@@ -96,11 +102,11 @@
                             {{ user.username }}
                         </a>
                         <ul class="dropdown-menu">
-                            <!--<div class="dropdown-" href="#" style="color: rgb(0, 0, 0);">Bienvenido:</div>
-                            <div class="dropdown-" href="#" style="color: rgb(0, 0, 0);">{{ user.username }} </div>-->
                             <form action="{% url 'logout' %}" method="post" class="dropdown-item"">
                                 {% csrf_token %}
-                                <button type="submit" style="color: rgb(255, 0, 0); border: 0px; background-color: transparent;">Cerrar Sesion</button></form>
+                                <button type=" submit"
+                                style="color: rgb(255, 0, 0); border: 0px; background-color: transparent;">Cerrar
+                                Sesion</button></form>
                         </ul>
                     </div>
                 </div>
@@ -128,6 +134,31 @@
     <script src="{% static 'core/js/jquery.slicknav.js' %}"></script>
     <script src="{% static 'core/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'core/js/main.js' %}"></script>
+    <script src="{% static 'core/js/funciones.js' %}"></script>
+    <script src="http://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {% if messages %}
+        {% for aux in messages %}
+            <script>
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "{{aux.tags}}",
+                    title: "{{aux}}"
+                });
+            </script>
+        {% endfor %}
+    {% endif %}
+
 </body>
 
 </html>

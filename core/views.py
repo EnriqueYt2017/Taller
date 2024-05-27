@@ -31,7 +31,11 @@ class VehiculoViewset(viewsets.ModelViewSet):
 
 # Create your views here.
 def home(request):
-    return render(request, 'core/home.html')
+    vehiculos = Vehiculo.objects.all()
+    aux = {
+        'lista' : vehiculos
+    }
+    return render(request, 'core/home.html', aux)
 
 @login_required
 def contactos(request):
@@ -65,7 +69,8 @@ def register(request):
             #ASIGNAMOS UN GRUPO AL USUARIO CREADO
             grupo = Group.objects.get(name='Usuarios')
             user.groups.add(grupo)
-            # MENSAJE    
+            # MENSAJE
+            messages.success(request, 'Usuario Registrado')    
             # AUTENTICA Y LOGEA
             user = authenticate(username=formulario.cleaned_data['username'],password=formulario.cleaned_data['password1'])
             login( request, user)
@@ -94,10 +99,10 @@ def empleadosadd(request):
         formulario = EmpleadoForm(request.POST, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
-            aux['msj']= 'Empleado Agregado'
+            messages.success(request, 'Empleado Agregado')
         else:
             aux['form'] = formulario
-            aux['msj'] = 'Error al Agregar'
+            messages.error(request, 'Error al Agregar')
 
     return render(request, 'core/empleados/crud/add.html', aux)
 
@@ -111,10 +116,10 @@ def empleadosupdate(request, nombre):
         formulario = EmpleadoForm(data=request.POST, instance=empleados, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
-            aux['msj']= 'Empleado Modificado'
+            messages.success(request, 'Empleado Modificado')
         else:
             aux['form'] = formulario
-            aux['msj'] = 'Error al Modificar'
+            messages.error(request, 'Error al Modificar')
 
     return render(request, 'core/empleados/crud/update.html',aux)
 
@@ -145,30 +150,33 @@ def vehiculosadd(request):
         formulario = VehiculoForm(request.POST, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
-            aux['msj']= 'Vehiculo Agregado'
+            messages.success(request, 'Vehiculo Agregado')
         else:
             aux['form'] = formulario
-            aux['msj'] = 'Error al Agregar'
+            messages.error(request, 'Error al Agregar')
 
     return render(request, 'core/vehiculos/crud/add.html', aux)
 
-def vehiculosupdate(request):
-    vehiculos = Vehiculo.objects.get()
+def vehiculosupdate(request, propietario):
+    vehiculos = Vehiculo.objects.get(propietario=propietario)
     aux = {
-        'form' : VehiculoForm(instance=empleados)
+        'form' : VehiculoForm(instance=vehiculos)
     }
 
     if request.method == 'POST':
         formulario = VehiculoForm(data=request.POST, instance=vehiculos, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
-            aux['msj']= 'Vehiculo Modificado'
+            messages.success(request, 'Vehiculo Modificado')
         else:
             aux['form'] = formulario
-            aux['msj'] = 'Error al Modificar'
+            messages.error(request, 'Error al Modificar')
     return render(request, 'core/vehiculos/crud/update.html', aux)
 
 def vehiculosdelete(request, propietario):
     vehiculos = Vehiculo.objects.get(propietario=propietario)
     vehiculos.delete()
     return redirect(to="vehiculos")
+
+def vehiculosview():
+    return render(request, 'core/vehiculos/crud/view.html', aux)

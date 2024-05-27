@@ -147,8 +147,7 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 #CONFIGURACION PARA LOS MENSAJES
-MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
-
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 #CONFIGURACION PARA LAS IMAGENES
 MEDIA_URL = '/Media/'

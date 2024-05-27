@@ -35,53 +35,26 @@
                     <div class="car__filter">
                         <h5>Car Filter</h5>
                         <form action="#">
-                            <select >
-                                <option data-display="Brand">Select Brand</option>
-                                <option value="">Acura</option>
-                                <option value="">Audi</option>
-                                <option value="">Bentley</option>
-                                <option value="">BMW</option>
-                                <option value="">Bugatti</option>
+                            <select>
+                                <option data-display="Marca">Marca</option>
+                                <option value="">Camaro</option>
                             </select>
                             <select>
-                                <option data-display="Model">{{ aux.marca }}</option>
-                                <option value="">{{ aux.marca }}</option>
-                            </select>
-                            <select>
-                                <option value="">Body Style</option>
-                                <option value="">Option 1</option>
-                                <option value="">Option 2</option>
-                            </select>
-                            <select>
-                                <option value="">Condition</option>
+                                <option value="">Cantidad Puertas</option>
                                 <option value="">First Hand</option>
                                 <option value="">Second Hand</option>
                             </select>
                             <select>
-                                <option value="">Transmisson</option>
-                                <option value="">Bluetooth</option>
-                                <option value="">WiFi</option>
+                                <option value="">Cantidad Pasajeros</option>
+                                <option value=""></option>
                             </select>
                             <select>
-                                <option value="">Mileage</option>
-                                <option value="">27</option>
-                                <option value="">20</option>
-                                <option value="">15</option>
-                                <option value="">10</option>
+                                <option value="">Transmision</option>
+                                <option value=""></option>
                             </select>
                             <select>
-                                <option value="">Engine</option>
-                                <option value="">BS3</option>
-                                <option value="">BS4</option>
-                                <option value="">BS5</option>
-                                <option value="">BS6</option>
-                            </select>
-                            <select>
-                                <option value="">Colors</option>
-                                <option value="">Red</option>
-                                <option value="">Blue</option>
-                                <option value="">Black</option>
-                                <option value="">Yellow</option>
+                                <option value="">Capacidad</option>
+                                <option value=""></option>
                             </select>
                             
                             <div class="car__filter__btn">
@@ -115,7 +88,7 @@
                         </div>
                     </div>
                 </div>
-                {% for aux in lista %}
+              {% for aux in lista %}
                 <div class="row">
                     <div class="col-lg-4 col-md-4">
                         <div class="car__item">
@@ -125,20 +98,26 @@
                             <div class="car__item__text">
                                 <div class="car__item__text__inner">
                                     <div class="label-date">2016</div>
-                                    <h5><a href="{% url 'vehiculosadd' %}">{{ aux.marca }}</a></h5>
+                                    {% if perms.core.add_empleado %}
+                                    <h5><a href="{% url 'vehiculosupdate' aux.propietario %}">{{ aux.marca }}</a></h5>
+                                    {% else %}
+                                    <h5>{{ aux.marca }}</h5>
+                                    {% endif %}
                                     <ul>
                                         <li><span>35,000</span> mi</li>
                                         <li>Auto</li>
                                         <li><span>700</span> hp</li>
                                     </ul>
                                 </div>
+                                {% if perms.core.add_empleado %}
                                 <div class="car__item__price">
                                     <a href="{% url 'vehiculosupdate' aux.propietario %}""><button type="button"
                                         class="fa fa-edit btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light" ></button></a>
                                         
-                                        <a href="{% url 'vehiculosdelete' aux.propietario %}""><button type="button"
+                                        <a ><button type="button" onclick="confirmarEliminarVehiculos('{{ aux.propietario }}')"
                                             class="fa fa-trash btn btn-danger mt-3 btn-rounded waves-effect w-md waves-light"></button></a>
                                         </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
