@@ -21,42 +21,40 @@
       </div>
     </div>
   </div>
-  </div>
-  </div>
 </section>
 <!--FIN BANNER-->
 
-<!--DESCRIPCION TALLER-->
-</div>
+<!--DESCRIPCIÓN TALLER-->
 <div class="p-5 bg-dark text-white text-center">
   <h1>Trabajos Recientes</h1>
 </div>
-<!--FIN DESCRIPCION TALLER-->
+<!--FIN DESCRIPCIÓN TALLER-->
 
 <!--INICIO CAROUSEL-->
 <div id="demo" class="carousel slide" data-bs-ride="carousel">
-
   <!-- Indicators/dots -->
   <div class="carousel-indicators">
-    <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-    <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-    <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+    {% for aux in lista %}
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="{{ forloop.counter0 }}" 
+    {% if forloop.first %} class="active" {% endif %}></button>
+    {% endfor %}
   </div>
 
   <!-- The slideshow/carousel -->
-  {% for aux in lista %}
   <div class="carousel-inner">
-    <div class="carousel-item active">
+    {% for aux in lista %}
+    <div class="carousel-item {% if forloop.first %}active{% endif %}">
       <img src="{{ aux.image.url }}" alt="" class="d-block mx-auto">
       <div class="carousel-caption">
         <h3>{{ aux.marca }}</h3>
         <a href="{% url 'vehiculos' %}">
-          <button type="button" class="btn">Mas Informacion</button>
+          <button type="button" class="btn">Más Información</button>
         </a>
       </div>
     </div>
     {% endfor %}
   </div>
+
   <style>
     .carousel-item h3 {
       color: white;
@@ -73,23 +71,23 @@
 </div>
 <!--FIN CAROUSEL-->
 
+
 <!--INICIO SERVICIOS-->
 <div class="container">
   <section id="Chapters">
     <h2 class="mt-5 text-center">Nuestra Especialidad</h2>
     <div class="row my-5 text-center">
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/caja_de_cambios.webp' %}" alt="" width="300px" height="300px">
+        <img class="img-50" src="{% static 'core/img/caja_de_cambios.webp' %}" alt="" width="300px" height="300px">
         <h4> Cajas de Cambio</h4>
         <p>La caja de cambios es un elemento en los vehículos que se encarga de obtener en las ruedas el par motor,
           suficiente para poner en movimiento el vehículo parado, y una vez en marcha obtener
           un par suficiente en ellas para vencer las resistencias al avance</p>
         <p> Su función es cambiar las relaciones de transmisión para permitir
           que el vehículo acelere y cambie de velocidades adecuadamente.</p>
-
       </div>
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/electronica_automotriz.gif' %}" alt="" width="300px" height="300px">
+        <img class="img-50" src="{% static 'core/img/electronica_automotriz.gif' %}" alt="" width="300px" height="300px">
         <h4>Electrónica Automotriz</h4>
         <p>La electrónica automotriz es una rama de la ingeniería electrónica que se ocupa
           de los sistemas electrónicos que se utilizan en los vehículos</p>
@@ -99,7 +97,7 @@
           circuito eléctrico de carga, arranque, luces y accesorios del vehículo.</p>
       </div>
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/suspencion_y_direccion.jpeg' %}" alt="" width="300px" height="300px">
+        <img class="img-50" src="{% static 'core/img/suspencion_y_direccion.jpeg' %}" alt="" width="300px" height="300px">
         <h4>Suspensión y Dirección</h4>
         <p>Las rótulas de dirección: Proporcionan orientación precisa y mantiene la
           estabilidad de la dirección en las curvas.</p>
@@ -111,13 +109,13 @@
     </div>
   </section>
 </div>
+
 <!--FIN SERVICIOS-->
 
-<!--SEPARACION-->
-</div>
+<!--SEPARACIÓN-->
 <div class="p-1 bg-dark text-white text-center">
 </div>
-<!--SEPARACION-->
+<!--SEPARACIÓN-->
 <!-- Chooseus Section Begin -->
 <section class="chooseus spad">
   <div class="container">
@@ -125,15 +123,15 @@
       <div class="col-lg-5">
         <div class="chooseus__text">
           <div class="section-title">
-            <h2>PORQUE ELEGUIR ESTE TALLER?</h2>
-            <p>Cada uno de nuestros mecanicos aportan con su experiencia y habilidades particulares para realizar un
+            <h2>PORQUE ELEGIR ESTE TALLER?</h2>
+            <p>Cada uno de nuestros mecánicos aportan con su experiencia y habilidades particulares para realizar un
               servicio completo
-              a nuestros clientes. Ellos son los expertos que mantienen nuestros automoviles en movimiento y seguros
+              a nuestros clientes. Ellos son los expertos que mantienen nuestros automóviles en movimiento y seguros
               en la carretera.
             </p>
           </div>
           <ul>
-            <li><i class=""></i> Contamos con 3 tecnicos certificados :
+            <li><i class=""></i> Contamos con 3 técnicos certificados :
             </li>
             <li><i class="fa fa-check-circle"></i> Experimentado en Caja de Cambios.
             </li>
@@ -142,7 +140,7 @@
             <li><i class="fa fa-check-circle"></i> Experimentado en Suspensión y Dirección.
             </li>
           </ul>
-          <a href="#" class="primary-btn">Mas Informacion</a>
+          <a href="#" class="primary-btn">Mas Información</a>
         </div>
       </div>
     </div>
@@ -163,44 +161,43 @@
     <h2 class="mt-5 text-center">MARCAS</h2>
     <div class="row my-5 text-center">
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/logo_camaro.jp' %}" alt="" width="auto" height="100">
+        <img class="img-50" src="{% static 'core/img/logo_camaro.jp' %}" alt="" width="auto" height="100">
         <h4> CAMARO</h4>
       </div>
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/logo_changan.jpeg' %}" alt="" width="auto" height="100">
+        <img class="img-50" src="{% static 'core/img/logo_changan.jpeg' %}" alt="" width="auto" height="100">
         <h4>CHANGAN</h4>
       </div>
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/hyundai-logo.jpg' %}" alt="" width="auto" height="100">
+        <img class="img-50" src="{% static 'core/img/hyundai-logo.jpg' %}" alt="" width="auto" height="100">
         <h4>HYUNDAI</h4>
       </div>
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/audi_logo.jpeg' %}" alt="" width="auto" height="100">
+        <img class="img-50" src="{% static 'core/img/audi_logo.jpeg' %}" alt="" width="auto" height="100">
         <h4>AUDI</h4>
       </div>
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/Chevrolet-logo-5.jpg' %}" alt="" width="auto" height="100">
+        <img class="img-50" src="{% static 'core/img/Chevrolet-logo-5.jpg' %}" alt="" width="auto" height="100">
         <h4>CHEVROLET</h4>
       </div>
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/logo_bmw.jpeg' %}" alt="" width="auto" height="100">
+        <img class="img-50" src="{% static 'core/img/logo_bmw.jpeg' %}" alt="" width="auto" height="100">
         <h4>B M W</h4>
       </div>
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/renault_logo.jpeg' %}" alt="" width="150" height="100">
-        <h4>RENAUL</h4>
+        <img class="img-50" src="{% static 'core/img/renault_logo.jpeg' %}" alt="" width="150" height="100">
+        <h4>RENAULT</h4>
       </div>
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/nissan-logo-black.jpg' %}" alt="" width="auto" height="100">
+        <img class="img-50" src="{% static 'core/img/nissan-logo-black.jpg' %}" alt="" width="auto" height="100">
         <h4>NISSAN</h4>
       </div>
       <div class="col-sm-12 col-md-4 col-lg-4">
-        <img src="{% static 'core/img/honda_logo.jpg' %}" alt="" width="150" height="100">
+        <img class="img-50" src="{% static 'core/img/honda_logo.jpg' %}" alt="" width="150" height="100">
         <h4>HONDA</h4>
       </div>
     </div>
   </section>
-</div>
 </div>
 <!--FIN MARCAS-->
 {% endblock %}

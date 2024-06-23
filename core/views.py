@@ -3,12 +3,14 @@ from .models import *
 from .form import *
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from rest_framework import viewsets
 from .serializers import *
 from rest_framework.renderers import JSONRenderer
 import requests
+from django.http import JsonResponse
+from django.views import View
 
 #API
 def usuariosapi(request):
@@ -39,7 +41,13 @@ def home(request):
 
 @login_required
 def contactos(request):
-    return render(request, 'core/contactos.html')
+    aux = {
+        'breadcrumb' : {
+            'title' : 'Contáctenos',
+            'links' : ['Contáctenos']
+        }
+    }
+    return render(request, 'core/contactos.html', aux)
 
 def listado_autos(request):
     return render(request, 'core/listado_autos.html')
@@ -52,7 +60,13 @@ def login_view(request):
 
 #SOLO LA VERA EL ADMIN
 def about(request):
-    return render(request, 'core/about.html')
+    aux = {
+        'breadcrumb' : {
+            'title' : 'Acerca de Nosotros',
+            'links' : ['Acerca de Nosotros']
+        }
+    }
+    return render(request, 'core/about.html', aux)
 
 def agendar_hora(request):
     return render(request, 'core/agendar_hora.html')
@@ -61,7 +75,7 @@ def register(request):
     aux = {
         'form' : CustomUserCreationForm()
     }
-     
+
     if request.method == 'POST':
         formulario = CustomUserCreationForm(data=request.POST)
         if formulario.is_valid():
@@ -132,18 +146,26 @@ def formulario(request):
     return render(request, 'core/formulario.html')
 
 
-#VEHICULOS ADD UPDATE DELETE
+#VEHÍCULOS ADD UPDATE DELETE
 def vehiculos(request):
     vehiculos = Vehiculo.objects.all()
     aux = {
-        'lista' : vehiculos
+        'lista' : vehiculos,
+        'breadcrumb' : {
+            'title' : 'Listado de autos',
+            'links' : ['Listado']
+        }
     }
     return render(request, 'core/vehiculos/index.html', aux)
 
 def vehiculosadd(request):
     vehiculos = Vehiculo.objects.all()
     aux = {
-        'form' : VehiculoForm()
+        'form' : VehiculoForm(),
+        'breadcrumb' : {
+            'title' : 'Añadir Vehículo',
+            'links' : ['Información Auto', 'Añadir Vehículo']
+        }
     }
 
     if request.method == 'POST':
@@ -180,3 +202,17 @@ def vehiculosdelete(request, propietario):
 
 def vehiculosview():
     return render(request, 'core/vehiculos/crud/view.html', aux)
+
+def pagos():
+    return render(request, 'core/pagos.html', aux)
+
+def logout_view(request):
+    logout(request)
+    return redirect(to="home")
+
+class SearchVehiclesView(View):
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get('query', '')
+        vehicles = Vehicle.objects.filter(name__istartswith=query)
+        results = list(vehicles.values('name', 'other_field'))
+        return JsonResponse(results, safe=False)

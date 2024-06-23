@@ -1,27 +1,9 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% block contenido %}
-<!-- Breadcrumb End -->
-<div class="breadcrumb-option set-bg" data-setbg="{% static 'core/img/breadcrumb-bg.jpg' %}">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="breadcrumb__text">
-                    <h2>Añadir Vehiculo</h2>
-                    <div class="breadcrumb__links">
-                        <a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
-                        <a href="#">Informacion Auto</a>
-                        <span>Añadir Vehiculo</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Breadcrumb Begin -->
+{% include 'core/includes/breadcrumb.html' %}
 
 <!-- Car Details Section Begin -->
-
 <section class="car-details spad">
     <div class="container">
         <div class="row">
@@ -48,7 +30,7 @@
                 <div class="car__details__tab">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Detalles Vehiculo</a>
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Detalles Vehículo</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -58,48 +40,51 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="car__details__tab__info__item">
                                             <h5>General Information</h5>
-                                            <form class="form-add" action="" method="POST" enctype="multipart/form-data"> 
+                                            <form class="form-add" action="" method="POST"
+                                                enctype="multipart/form-data">
                                                 {% csrf_token %}
-                                            <ul>
-                                                <li><i class="fa fa-check"></i>
-                                                    <label for="id_propietario" class=" requiredField">
-                                                        Propietario<span class="asteriskField">*</span> </label>
-                                                    <input type="text" name="propietario" maxlength="20"
-                                                        class="textinput form-control" required="" id="id_propietario">
-                                                </li>
-                                                <li><i class="fa fa-check"></i>
-                                                    <label for="id_marca" class=" requiredField">
-                                                        Marca<span class="asteriskField">*</span> </label>
-                                                </li>
-                                                <select name="marca" class="select form-control is-invalid"
-                                                    required="" aria-invalid="true" id="id_marca"
-                                                    style="display: none;">
-                                                    <option value="" selected="">---------</option>
-                                                    <option value="1">Changan</option>
-                                                    <option value="2">Audi</option>
-                                                    <option value="3">Camaro</option>
-                                                </select>
-                                                <li><i class="fa fa-check"></i>
-                                                    <label for="id_cant_puertas" class=" requiredField">
-                                                        Cant puertas<span class="asteriskField">*</span> </label>
-                                                    <input type="number" name="cant_puertas" value="0"
-                                                        class="numberinput form-control" required=""
-                                                        id="id_cant_puertas">
-                                                </li>
-                                                <li><i class="fa fa-check"></i>
-                                                    <label for="id_cant_pasajeros" class=" requiredField">
-                                                        Cant pasajeros<span class="asteriskField">*</span> </label>
-                                                    <input type="number" name="cant_pasajeros" value="0"
-                                                        class="numberinput form-control" required=""
-                                                        id="id_cant_pasajeros">
-                                                </li>
-                                                <li><i class="fa fa-check"></i>
-                                                    <label for="id_transmision" class=" requiredField">
-                                                        Transmision<span class="asteriskField">*</span> </label>
-                                                    <input type="text" name="transmision" maxlength="20"
-                                                        class="textinput form-control" required="" id="id_transmision">
-                                                </li>
-                                            </ul>
+                                                <ul>
+                                                    <li><i class="fa fa-check"></i>
+                                                        <label for="id_propietario" class=" requiredField">
+                                                            Propietario<span class="asteriskField">*</span> </label>
+                                                        <input type="text" name="propietario" maxlength="20"
+                                                            class="textinput form-control" required=""
+                                                            id="id_propietario">
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-check"></i>
+                                                        <label for="id_marca" class=" requiredField">Marca<span class="asteriskField">*</span> </label>
+                                                    </li>
+                                                    <select name="marca" class="select form-control is-invalid"
+                                                        required="" aria-invalid="true" id="id_marca"
+                                                        style="display: none; width: 100%;">
+                                                        <option value="" selected="">---------</option>
+                                                        <option value="1">Changan</option>
+                                                        <option value="2">Audi</option>
+                                                        <option value="3">Camaro</option>
+                                                    </select>
+                                                    <li><i class="fa fa-check"></i>
+                                                        <label for="id_cant_puertas" class=" requiredField">
+                                                            Cant puertas<span class="asteriskField">*</span> </label>
+                                                        <input type="number" name="cant_puertas" value="0"
+                                                            class="numberinput form-control" required=""
+                                                            id="id_cant_puertas">
+                                                    </li>
+                                                    <li><i class="fa fa-check"></i>
+                                                        <label for="id_cant_pasajeros" class=" requiredField">
+                                                            Cant pasajeros<span class="asteriskField">*</span> </label>
+                                                        <input type="number" name="cant_pasajeros" value="0"
+                                                            class="numberinput form-control" required=""
+                                                            id="id_cant_pasajeros">
+                                                    </li>
+                                                    <li><i class="fa fa-check"></i>
+                                                        <label for="id_transmision" class=" requiredField">
+                                                            Transmisión<span class="asteriskField">*</span> </label>
+                                                        <input type="text" name="transmision" maxlength="20"
+                                                            class="textinput form-control" required=""
+                                                            id="id_transmision">
+                                                    </li>
+                                                </ul>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
@@ -131,9 +116,9 @@
                                         <!--Solo tiene acceso el empleado o administrador-->
                                         <input class="btn btn-danger" type="reset" value="Limpiar">
                                         <input class="btn btn-success" type="submit" value="Guardar">
-                                    </form>
-                                    <h5>{{ msj }}</h5>
-                                </div>
+                                        </form>
+                                        <h5>{{ msj }}</h5>
+                                    </div>
                                 </div>
                             </div>
                             <div class="car__details__tab__feature">
@@ -185,7 +170,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

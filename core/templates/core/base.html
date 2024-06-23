@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{% static 'core/css/nice-select.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'core/css/magnific-popup.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'core/css/owl.carousel.min.css' %}" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <!--  <link rel="stylesheet" href="css/style.css' %}" type="text/css">-->
     <link rel="stylesheet" href="{% static 'core/sass/style.css' %}" type="text/css">
     <!--MY JS-->
@@ -32,21 +33,19 @@
 </head>
 
 <body>
-    <!--SEPARACION-->
-    </div>
     <div class="p-1 bg-dark text-white text-center">
         <div class="header__top__social">
             <ul class="header__top__widget">
                 <li><i class="fa fa-clock-o"></i> Lunes - Viernes: 08:00 am - 18:00 pm</li>
                 <li></li>
-                <li><i class="fa fa-envelope-o"></i> TallerRayoVeloz@gmail.com</li>
+                <li><i class="fa fa-envelope-o"></i> <a href="mailto:TallerRayoVeloz@gmail.com">TallerRayoVeloz@gmail.com</a></li>
                 <li></li>
             </ul>
         </div>
     </div>
-    <!--SEPARACION-->
+    <!--SEPARACIÓN-->
 
-    <!-- Boton cargando -->
+    <!-- Botón cargando -->
     <div id="preloder">
         <div class="loader"></div>
     </div>
@@ -70,7 +69,7 @@
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contactos' %}">Contactenos</a>
+                        <a class="nav-link" href="{% url 'contactos' %}">Contáctenos</a>
                     </li>
                     <!--SOLO PERMITIDO ADMIN-->
                     {% if user.is_staff %}
@@ -79,8 +78,8 @@
                     </li>
                     {% endif %}
 
-                    <!--SOLO PERMITIDO MECANICO-->
-                    {% if perms.core.grupos.empleado %}
+                    <!--SOLO PERMITIDO MECÁNICO-->
+                    {% if perms.core.add_vehiculo %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'vehiculosadd' %}">Agregar Auto</a>
                     </li>
@@ -92,7 +91,7 @@
             <!--SOLO PERMITIDO USUARIO-->
             <div class="row align-items-center">
                 <a href="{% url 'agendar_hora' %}" class="primary-btn w-auto">Agendar Hora</a>
-            <!--END-->
+                <!--END-->
                 {% if user.is_authenticated %}
                 <div class="w-auto">
                     <div class="dropdown">
@@ -102,11 +101,9 @@
                             {{ user.username }}
                         </a>
                         <ul class="dropdown-menu">
-                            <form action="{% url 'logout' %}" method="post" class="dropdown-item"">
-                                {% csrf_token %}
-                                <button type=" submit"
+                            <a href="{% url 'logout2' %}" class="dropdown-item"
                                 style="color: rgb(255, 0, 0); border: 0px; background-color: transparent;">Cerrar
-                                Sesion</button></form>
+                                Sesión</a>
                         </ul>
                     </div>
                 </div>
@@ -138,25 +135,25 @@
     <script src="http://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {% if messages %}
-        {% for aux in messages %}
-            <script>
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                    icon: "{{aux.tags}}",
-                    title: "{{aux}}"
-                });
-            </script>
-        {% endfor %}
+    {% for aux in messages %}
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "{{aux.tags}}",
+            title: "{{aux}}"
+        });
+    </script>
+    {% endfor %}
     {% endif %}
 
 </body>

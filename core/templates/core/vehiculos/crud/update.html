@@ -7,11 +7,11 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb__text">
-                    <h2>Editar Vehiculo</h2>
+                    <h2>Editar Vehículo</h2>
                     <div class="breadcrumb__links">
                         <a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
-                        <a href="#">Informacion Auto</a>
-                        <span>Editar Vehiculo</span>
+                        <a href="#">Información Auto</a>
+                        <span>Editar Vehículo</span>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                 <div class="car__details__tab">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Detalles Vehiculo</a>
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Detalles Vehículo</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -43,16 +43,17 @@
                                     <div class="col-lg-6 col-md-6">
                                         <div class="car__details__tab__info__item">
                                             <h5>General Information</h5>
-                                            <form class="form-add" action="" method="POST" enctype="multipart/form-data"> 
+                                            <form class="form-add" action="" method="POST"
+                                                enctype="multipart/form-data">
                                                 {% csrf_token %}
-                                            <ul>
-                                                <li><i class="fa fa-check"></i>
-                                                    <table>
-                                                        {{ form }}
-                                                    </table>
-                                                </li>
+                                                <ul>
+                                                    <li><i class="fa fa-check"></i>
+                                                        <table>
+                                                            {{ form }}
+                                                        </table>
+                                                    </li>
 
-                                            </ul>
+                                                </ul>
                                         </div>
                                     </div>
                                     {% if perms.core.add_empleado %}
@@ -64,9 +65,9 @@
                                         <input class="btn btn-danger" type="reset" value="Limpiar">
                                         <input class="btn btn-success" type="submit" value="Modificar">
                                         <h5>{{ msj }}</h5>
-                                    </form>
-                                </div>
-                                {% endif %}
+                                        </form>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="car__details__tab__feature">

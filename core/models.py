@@ -13,6 +13,14 @@ class Marca(models.Model):
     def __str__(self) -> str:
         return self.descripcion
 
+class CustomUsuario(models.Model):
+    genero = models.ForeignKey(Genero, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="usuarios", blank=True, null=True)
+    """ user = models.ForeignKey(User, on_delete=models.CASCADE) """
+
+    def __str__(self) -> str:
+        return self.nombre
+
 
 class Vehiculo(models.Model):
     propietario = models.CharField(max_length = 20)
@@ -43,7 +51,7 @@ class Empleado(models.Model):
     image = models.ImageField(upload_to="empleados", blank=True, null=True)
     
     def __str__(self) -> str:
-        return self.nombre
+        return self.nombre + " " + self.apellido
 
 
 class Mantenimiento(models.Model):

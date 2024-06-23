@@ -2,7 +2,7 @@ from django.urls import path, include
 from .views import *
 from rest_framework import routers
 
-# CONFIGURACION PARA API
+# CONFIGURACIÓN PARA API
 router = routers.DefaultRouter()
 router.register('Vehiculos', VehiculoViewset)
 
@@ -14,10 +14,12 @@ urlpatterns = [
     path('listado_autos', listado_autos, name="listado_autos"),
     path('informacion_auto', informacion_auto, name="informacion_auto"),
     path('login', login_view, name="login"),
+    path('logout', logout_view, name="logout2"),
     path('register', register, name="register"),
     path('about', about, name="about"),
     path('agendar_hora', agendar_hora, name="agendar_hora"),
     path('formulario', formulario, name="formulario"),
+    path('pagos', pagos, name="pagos"),
     # USUARIOS
     path('empleados', empleados, name="empleados"),
     path('empleados/add/', empleadosadd, name="empleadosadd"),
