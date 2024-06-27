@@ -1,0 +1,88 @@
+{% extends 'core/layout/base.html' %}
+{% load static %}
+{% block title %} - Contactos{% endblock %}
+
+{% block contenido %}
+{% include 'core/includes/breadcrumb.html' %}
+
+<!-- Contact Section Begin -->
+<section class="contact spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="contact__text">
+                    <div class="section-title">
+                        <h2>Vamos a trabajar juntos</h2>
+                        <p>Para hacer futuras preguntas, contáctenos a traves de esta sección.</p>
+                    </div>
+                    <ul>
+                        <li><span>Días Laborales:</span> 08:00 am to 18:00 pm</li>
+                        <li><span>Sábados:</span> 10:00 am to 16:00 pm</li>
+                        <li><span>Domingos:</span>Cerrado</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="contact__form">
+                    <form method="POST" action="{% url 'contactos' %}">
+                        {% csrf_token %}
+                        {% if messages %}
+                        {% for messages in messages %}
+
+                            {{message}}
+
+                        {% endfor %}
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input type="text" placeholder="Nombre" name="name">
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" placeholder="Email" name="email">
+                            </div>
+                        </div>
+
+                        <input type="text" placeholder="Asunto" name="asunto">
+                        <textarea placeholder="Preguntas/Consultas" name="message"></textarea>
+                        <button type="submit" class="site-btn">Submit Now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Section End -->
+
+<!-- Contact Address Begin -->
+<div class="contact-address">
+    <div class="container">
+        <div class="contact__address__text">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="contact__address__item">
+                        <h4>California Showroom</h4>
+                        <p>625 Gloria Union, California, United Stated Colorlib.california@gmail.com</p>
+                        <span>(+12) 456 678 9100</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="contact__address__item">
+                        <h4>New York Showroom</h4>
+                        <p>8235 South Ave. Jamestown, NewYork Colorlib.Newyork@gmail.com</p>
+                        <span>(+12) 456 678 9100</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="contact__address__item">
+                        <h4>Florida Showroom</h4>
+                        <p>497 Beaver Ridge St. Daytona Beach, Florida Colorlib.california@gmail.com</p>
+                        <span>(+12) 456 678 9100</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact Address End -->
+
+{% endblock %}

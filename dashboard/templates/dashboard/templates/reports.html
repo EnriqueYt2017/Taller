@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{report_id}}</title>
+</head>
+<body>
+ <div class="container">
+    <img src="https://th.bing.com/th?id=OIP.jxLR1uf-6y6TfnSU_1OajAHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2" alt="" width="200px" style="text-align: center;">
+    <h2 style="text-align: center;">Detalles boleta</h2>
+        <h6 style="text-align: center;">Taller Rayo Mackween</h6>
+</div>
+<h6 style="text-align: start;">FACTURA: {{invoice_id}} </h6>
+<label style="text-align: start;">Cliente:</label>
+
+ <hr class="my-4" />
+<div class="container-boleta">
+<h2>Elementos de factura</h2>
+<table>
+    <tr style="background-color: rgb(154, 235, 235); border: 0.4px black solid; padding: 1px;">
+        <th class="id">Nombre</th>
+        <th class="id">Cantidad</th>
+        <th class="id">Precio</th>
+        <th class="id">Total</th>
+    </tr>
+    <tr>
+        <td class="id2">{{value.nombre}} </td>
+        <td class="id2">{{value.cantidad}} </td>
+        <td class="id2">${{total_carrito}} </td>
+        <td class="id2">${{total_carrito_usd}}</td>
+    </tr>
+</table>
+
+<hr class="my-4" />
+<h2>Detalles de Pago</h2>
+<table>
+    <tr>
+        <th class="id">Forma de pago</th>
+        <td class="id">PayPal</td>
+    </tr>
+    <tr>
+        <th class="id">Monto pagado</th>
+        <td class="id">...</td>
+    </tr>
+</table>
+</div>
+</body>
+<style>
+    .id{
+        text-align: end;
+    }
+
+    .id2{
+        padding: 2px;
+        border: 1px solid black;
+    }
+</style> 
+</html>
