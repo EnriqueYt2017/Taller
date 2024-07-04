@@ -113,7 +113,7 @@ def agregar_producto(request):
     }
 
     if request.method == 'POST':
-        formulario = ProductosForm(request.POST)
+        formulario = ProductosForm(request.POST, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
             aux['form'] = formulario
@@ -133,7 +133,7 @@ def editar_producto(request, id):
     }
 
     if request.method == 'POST':
-        formulario = ProductosForm(data=request.POST, instance=producto)
+        formulario = ProductosForm(data=request.POST, instance=producto, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
             aux['form'] = formulario

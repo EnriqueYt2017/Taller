@@ -21,14 +21,15 @@
     <h2>Iniciar Sesión</h2>
     <form method="POST">
       {% csrf_token %}
+
+      {{form2}}
+
       <div class="user-box">
-        <input type="text" name="username" required="" id="id_username" class="textinput form-control"
-          style="color: white;">
+        {{ form.username }}
         <label>Usuario</label>
       </div>
       <div class="user-box">
-        <input type="password" name="password" required="" id="id_password" class="passwordinput form-control"
-          style="color: white;">
+        {{ form.password }}
         <label>Contraseña</label>
       </div>
 
@@ -40,7 +41,6 @@
         <span></span>
       </a>
       </input>
-      <!--<div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-layout="rounded" data-auto-logout-link="false" data-use-continue-as="false"></div>-->
       <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-layout="rounded"
         data-auto-logout-link="false" data-use-continue-as="false"></div>
     </form>
@@ -64,6 +64,14 @@
 
   <!-- Bootstrap JS -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    var inputs = document.querySelectorAll('input');
+    inputs[1].classList.add('textinput');
+    inputs[2].classList.add('passwordinput');
+    inputs.forEach(input => {
+      input.classList.add('form-control');
+    });
+  </script>
 </body>
 
 </html>

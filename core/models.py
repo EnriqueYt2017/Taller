@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
+from admin_confirm import AdminConfirmMixin
 
 # Create your models here.
 class Marca(models.Model):
@@ -17,7 +19,7 @@ class Vehiculo(models.Model):
     transmision = models.CharField(max_length=255)
     capacidad = models.IntegerField(default=0)
     velo_maxima = models.IntegerField(default=0)
-    image = models.ImageField(upload_to="vehiculos", blank=True, null=True)
+    image = CloudinaryField('vehiculos')
 
     def __str__(self) -> str:
         return self.propietario
@@ -38,11 +40,11 @@ class AgendarHora(models.Model):
     def __str__(self) -> str:
         return self.nombre
 
-class Producto(models.Model):
+class Producto(AdminConfirmMixin, models.Model):
     nombre = models.CharField(max_length=255)
     categoria = models.CharField(max_length=255)
     precio = models.IntegerField()
-    image = models.ImageField(upload_to="productos", blank=True, null=True)
+    image = CloudinaryField('productos')
 
     def __str__(self):
         return f'{self.nombre} -> {self.precio}'

@@ -30,13 +30,15 @@ SECRET_KEY = 'django-insecure-&qg_nz(%=g-cupj9i1f1sohx@*-@=lt0&g_z_al2)g_%zw%t_&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1']
+ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', 'localhost']
 
 # Application definition
 
 INSTALLED_APPS = [
     'admin_interface',
     'colorfield',
+    'admin_confirm',
+    'multi_captcha_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,6 +55,11 @@ INSTALLED_APPS = [
     'django_recaptcha',
     'cloudinary',
 ]
+
+# CONFIG CAPTCHA
+MULTI_CAPTCHA_ADMIN = {
+    'engine': 'simple-captcha',
+}
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 X_FRAME_OPTIONS = "SAMEORIGIN"
@@ -78,6 +85,12 @@ MIDDLEWARE = [
     'axes.middleware.AxesMiddleware',
 ]
 
+# CONFIG AXES
+AXES_FAILURE_LIMIT = 3 # NUMERO DE INTENTOS FALLIDOS
+AXES_COOLOFF_TIME = timedelta(minutes=3) # EL TIEMPO DE ESPERA ANTES DE PERMITIR OTRO LOGIN
+AXES_LOCKOUT_URL = 'account_locked'
+AXES_RESET_ON_SUCCESS = True # RESTABLECE EL CONTADOR CUANDO SE LOGEA
+
 ROOT_URLCONF = 'Taller.urls'
 
 TEMPLATES = [
@@ -91,13 +104,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processor.total_carrito',
+                'core.context_processor.total_carrito_usd',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'Taller.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -111,15 +125,14 @@ WSGI_APPLICATION = 'Taller.wsgi.application'
 
 DATABASES = {
     'default' :{
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'HOST': 'aws-0-sa-east-1.pooler.supabase.com',
         'NAME': 'postgres',
-        'USER': 'postgres.rgkujhgvckxlhbfgqrdn',
-        'PASSWORD': 'mjBudSuWGpsVOHsI',
+        'USER': 'postgres.lzsyhxamxbeikaabooxq',
+        'PASSWORD': 'WahLyG9cJ9quVvS2',
         'PORT': '6543',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -158,7 +171,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManigestStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -185,8 +198,9 @@ EMAIL_HOST_PASSWORD = 'kwrd ecwh edxb coaw'
 EMAIL_USE_TLS = True
 
 # CONFIG CLOUDINARY
+
 cloudinary.config(
-    cloud_name = 'dqcselomp',
-    api_key = '374617814684741',
-    api_secret = 'dF3z1KOzmK1U1WhfrO8hkcYqPRI'
+    cloud_name = 'dcn8oucul',
+    api_key = '434493841786621',
+    api_secret = '_K8Be2qlwvtVIZyWUyYSRDwpKG4'
 )

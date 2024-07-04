@@ -25,7 +25,7 @@
                                 <!-- Image -->
                                 <div class="bg-image hover-overlay hover-zoom ripple rounded"
                                     data-mdb-ripple-color="light">
-                                    <img src="{{ value.image }}" class="w-100" alt="{{ value.nombre}}" />
+                                    <img src="{% if value.image %}{{ value.image }}{% else %}{% static 'no-img.jpg' %}{% endif %}" alt="{{ value.nombre}}" style="width: 100px; height: 100px;" />
                                     <a href="#!">
                                         <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
                                     </a>
@@ -57,7 +57,7 @@
                                     <form class="form-outline" method="post">
                                         {% csrf_token %}
                                         <input id="form1" min="0" name="quantity" value="{{value.cantidad}}"
-                                            type="number" class="form-control" max="100" />
+                                            type="number" class="form-control" max="100" min="0" />
                                         <input type="hidden" name="product_id" value="{{value.producto_id}}">
                                     </form>
 

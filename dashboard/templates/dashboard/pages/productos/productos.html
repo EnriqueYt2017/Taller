@@ -43,7 +43,7 @@
                             {% for producto in page_obj %}
                             <tr>
                                 <td class="py-1">
-                                    <img src="{% if producto.image %}{{ producto.image.url }}{% endif %}" alt="image" />
+                                    <img src="{% if producto.image %}{{ producto.image.url }}{% else %}{% static 'no-img.jpg' %}{% endif %}" alt="image" />
                                 </td>
                                 <td>
                                     {{ producto.nombre }}

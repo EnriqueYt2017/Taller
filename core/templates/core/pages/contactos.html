@@ -26,25 +26,22 @@
                 <div class="contact__form">
                     <form method="POST" action="{% url 'contactos' %}">
                         {% csrf_token %}
-                        {% if messages %}
-                        {% for messages in messages %}
-
-                            {{message}}
-
-                        {% endfor %}
-                        {% endif %}
                         <div class="row">
                             <div class="col-lg-6">
-                                <input type="text" placeholder="Nombre" name="name">
+                                <!-- <input type="text" placeholder="Nombre" name="name"> -->
+                                {{ form.name }}
                             </div>
                             <div class="col-lg-6">
-                                <input type="text" placeholder="Email" name="email">
+                                <!-- <input type="text" placeholder="Email" name="email"> -->
+                                {{ form.email }}
                             </div>
                         </div>
-
-                        <input type="text" placeholder="Asunto" name="asunto">
-                        <textarea placeholder="Preguntas/Consultas" name="message"></textarea>
-                        <button type="submit" class="site-btn">Submit Now</button>
+                        {{ form.asunto }}
+                        {{ form.message }}
+                        <!-- <input type="text" placeholder="Asunto" name="asunto"> -->
+                        <!-- <textarea placeholder="Preguntas/Consultas" name="message"></textarea> -->
+                        {{ form.captcha }}
+                        <button type="submit" class="site-btn mt-4">Submit Now</button>
                     </form>
                 </div>
             </div>
@@ -60,23 +57,9 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="contact__address__item">
-                        <h4>California Showroom</h4>
-                        <p>625 Gloria Union, California, United Stated Colorlib.california@gmail.com</p>
-                        <span>(+12) 456 678 9100</span>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="contact__address__item">
-                        <h4>New York Showroom</h4>
-                        <p>8235 South Ave. Jamestown, NewYork Colorlib.Newyork@gmail.com</p>
-                        <span>(+12) 456 678 9100</span>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="contact__address__item">
-                        <h4>Florida Showroom</h4>
-                        <p>497 Beaver Ridge St. Daytona Beach, Florida Colorlib.california@gmail.com</p>
-                        <span>(+12) 456 678 9100</span>
+                        <h4>Japon Showroom</h4>
+                        <p>625 Gloria Union, Tokio, JAPON tallerrayoveloz@GMAIL.COM</p>
+                        <span>(+56) 9 9582 2545</span>
                     </div>
                 </div>
             </div>
@@ -84,5 +67,14 @@
     </div>
 </div>
 <!-- Contact Address End -->
+
+<script>
+    var inputs = document.querySelectorAll('input');
+    inputs[1].setAttribute('placeholder', 'Nombre');
+    inputs[2].setAttribute('placeholder', 'Email');
+    inputs[3].setAttribute('placeholder', 'Asunto');
+    var textarea = document.querySelector('textarea');
+    textarea.setAttribute('placeholder', 'Preguntas/Consultas');
+</script>
 
 {% endblock %}

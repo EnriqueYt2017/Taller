@@ -12,7 +12,7 @@
         </div>
         <div class="carrusel-elemento">
             <img class="imagenes"
-                src="https://th.bing.com/th/id/OIP.N9not6M4038A68us_GsW8gHaD4?w=1200&h=630&rs=1&pid=ImgDetMain">
+                src="https://th.bing.com/th/id/OIP.pJY7uYZ5gMZBEbv_Co3wjQHaD4?rs=1&pid=ImgDetMain">
         </div>
     </div>
 
@@ -23,15 +23,15 @@
                     <div class="car__sidebar">
                         <div class="car__search">
                             <h5>Buscar Producto</h5>
-                            <form action="#">
-                                <input type="text" placeholder="Search...">
+                            <form method="GET">
+                                <input class="search_fields" autocomplete="on" type="text" name="buscar" value="{{ request.GET.buscar }}" placeholder="Search...">
                                 <button type="submit"><i class="fa fa-search"></i></button>
                             </form>
                         </div>
                         <div class="car__filter">
                             <form action="#">
                                 <div class="car__filter__btn">
-                                    <button type="submit" class="site-btn">Reset FIlter</button>
+                                    <button type="submit" class="site-btn">Resetear Búsqueda</button>
                                 </div>
                             </form>
                         </div>
@@ -43,12 +43,12 @@
                         <div class="col-lg-4 col-md-4">
                             <div class="car__item">
                                 <div class="car__item__pic__slider owl-carousel">
-                                    <img src="{{producto.image.url}}" alt="" width="300" height="200">
+                                    <img src="{% if producto.image %}{{ producto.image.url }}{% else %}{% static 'no-img.jpg' %}{% endif %}" alt="" width="300" height="200">
                                 </div>
                                 <div class="car__item__text">
-                                    <div class="car__item__text__inner">
-                                        <div class="card-body">
-                                            <h5 class="card-tittle">{{producto.nombre}}</h5>
+                                    <div class="car__item__text__inner" style="width: 214px; height: 274px;" >
+                                        <div class="card-body" style="width: 194px; height: 230px;">
+                                            <h5 class="card-tittle" style="width: 194px; height: 96px;">{{producto.nombre}}</h5>
                                             <p class="card-text">{{producto.categoria}}</p>
                                             <p class="card-text">${{producto.precio}}</p>
                                             <a href="{% url 'pro_add' producto.id %}" class="btn btn-primary">Agregar al
@@ -57,6 +57,10 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-lg-12">
+                            <p>No hay productos disponibles.</p>
                         </div>
                         {% endfor %}
                     </div>

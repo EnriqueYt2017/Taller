@@ -3,12 +3,13 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LoginView
 from django.urls import include, path
 from rest_framework import routers
-
 from .views import *
 
 # CONFIGURACIÓN PARA API
 router = routers.DefaultRouter()
-router.register('Vehiculos', VehiculoViewset)
+router.register('Producto', ProductosViewset)
+# router.register('Vehiculos', VehiculoViewset)
+
 
 urlpatterns = [
     # AUTH
@@ -31,7 +32,8 @@ urlpatterns = [
     path('formulario', formulario, name="formulario"),
 
     # API
-    # path('api/' , include(router.urls)),
+    path('api' , include(router.urls)),
+    # path('api/productos', ProductoList.as_view(), name='productos_api'),
     # path('usuarios_api', usuarios_api, name="usuarios_api"),
 
     # VEHICULOS
@@ -41,13 +43,14 @@ urlpatterns = [
 
     # PRODUCTOS
     path('productos', productos, name= "productos"),
-    path('productos/agregar/<int:producto_id>/', agregar_producto, name="pro_add"),
+    path('productos/agregar/<int:producto_id>', agregar_producto, name="pro_add"),
+    
 
     # CARRITO
     path('carrito', carrito, name="carrito"),
-    path('carrito/agregar/<int:producto_id>/', agregar_carrito, name="car_add"),
-    path('carrito/eliminar/<int:producto_id>/', eliminar_carrito, name="car_del"),
-    path('carrito/restar/<int:producto_id>/', restar_carrito, name="car_res"),
+    path('carrito/agregar/<int:producto_id>', agregar_carrito, name="car_add"),
+    path('carrito/eliminar/<int:producto_id>', eliminar_carrito, name="car_del"),
+    path('carrito/restar/<int:producto_id>', restar_carrito, name="car_res"),
     path('carrito/limpiar', limpiar_carrito, name= "car_cls"),
     path('carrito_completar', carrito_completar, name="carrito_completar"),
     path('comprar', comprar, name="comprar"),

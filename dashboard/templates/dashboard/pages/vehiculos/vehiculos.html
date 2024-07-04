@@ -49,7 +49,7 @@
                             {% for vehiculo in page_obj %}
                             <tr>
                                 <td class="py-1">
-                                    <img src="{% if vehiculo.image %}{{ vehiculo.image.url }}{% endif %}" alt="image" />
+                                    <img src="{% if vehiculo.image %}{{ vehiculo.image.url }}{% else %}{% static 'no-img.jpg' %}{% endif %}" alt="image" />
                                 </td>
                                 <td>
                                     {{ vehiculo.modelo }}

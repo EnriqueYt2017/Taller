@@ -15,7 +15,7 @@ from django.shortcuts import redirect, render
 from django.template.loader import get_template, render_to_string
 from django.views import View
 from django.views.generic import ListView
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.renderers import JSONRenderer
 from xhtml2pdf import pisa
 
@@ -27,6 +27,7 @@ from .models import *
 from .models import Producto
 from .serializers import *
 from .utils import render_to_pdf
+from django.db.models import Q
 
 #API
 def usuariosapi(request):
@@ -41,14 +42,25 @@ def usuariosapi(request):
     }
     return render(request, 'core/crudapi/index.html', aux)
 
+class ProductosViewset(viewsets.ModelViewSet):
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializers
+    renderer_classes = [JSONRenderer]
+
 # AUTH
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect(to="home")
+
     return render(request, 'registration/login.html')
 
 def register(request):
     aux = {
         'form' : CustomUserCreationForm()
     }
+
+    if request.user.is_authenticated:
+        return redirect(to="home")
 
     if request.method == 'POST':
         formulario = CustomUserCreationForm(data=request.POST)
@@ -114,9 +126,11 @@ def contactos(request):
         'breadcrumb' : {
             'title' : 'Contáctenos',
             'links' : ['Contáctenos']
-        }
+        },
+        'form' : ContactForm()
     }
     if request.method == "POST":
+        print(request.POST)
         form = ContactForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
@@ -128,14 +142,15 @@ def contactos(request):
                 'Contact Form Submission from {}'.format(name),
                 message,
                 'form-response@example.com', # Send from (your website)
-                ['4735e155cdc935'], # Send to (your admin email)
+                [settings.EMAIL_HOST_USER], # Send to (your admin email)
                 [],
                 reply_to=[email] # Email from the form to get back to
             ).send()
             messages.success(request, 'Se ha enviado tu correo.')
             return redirect('contactos')
         else:
-            form = ContactForm()
+            messages.error(request, 'Por favor, revisa los campos.')
+            form = ContactForm(request.POST)
 
     return render(request, 'core/pages/contactos.html', aux)
 
@@ -144,13 +159,25 @@ def formulario(request):
 
 #VEHÍCULOS
 def vehiculos(request):
+    busqueda = request.GET.get('buscar')
     vehiculos = Vehiculo.objects.all()
+
+    #BUSQUEDA
+    if busqueda:
+        vehiculos = Vehiculo.objects.filter(
+            Q(modelo__icontains = busqueda) |
+            Q(cant_puertas__icontains = busqueda) |
+            Q(cant_pasajeros__icontains = busqueda) |
+            Q(transmision__icontains = busqueda) |
+            Q(capacidad__icontains = busqueda)
+        )
     aux = {
         'lista' : vehiculos,
         'breadcrumb' : {
             'title' : 'Listado de autos',
             'links' : ['Listado']
-        }
+        },
+        'busqueda': busqueda
     }
     return render(request, 'core/pages/vehiculos.html', aux)
 
@@ -162,20 +189,30 @@ def listado_autos(request):
 
 # PRODUCTOS
 def productos(request):
+    busqueda = request.GET.get('buscar')
     productos = Producto.objects.all()
+    #BUSQUEDA
+    if busqueda:
+        productos = Producto.objects.filter(
+            Q(nombre__icontains = busqueda)
+        )
+
     # PAGINADOR
-    paginator = Paginator(productos, 10) # MUESTRA 10 DATOS
+    paginator = Paginator(productos, 9) # MUESTRA 10 DATOS
     page_number = request.GET.get('page') # OBTENEMOS LA PAGINA
     page_obj = paginator.get_page(page_number)
     aux = {
-        'page_obj' : page_obj
+        'page_obj' : page_obj,
+        'busqueda': busqueda
     }
-    return render(request, 'core/pages/productos.html', aux)
+
+    return render(request, 'core/pages/productos.html',aux)
 
 def agregar_producto(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.agregar(producto)
+    messages.success(request, 'Producto agregado al carrito')
     return redirect("productos")
 
 # CARRITO
@@ -201,6 +238,7 @@ def eliminar_carrito(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.eliminar(producto)
+    messages.success(request, 'Producto eliminado del carrito')
     return redirect("carrito")
 
 def restar_carrito(request, producto_id):
@@ -212,6 +250,7 @@ def restar_carrito(request, producto_id):
 def limpiar_carrito(request):
     carrito = Carrito(request)
     carrito.limpiar()
+    messages.success(request, 'Carrito limpiado')
     return redirect("carrito")
 
 class SearchVehiclesView(View):
