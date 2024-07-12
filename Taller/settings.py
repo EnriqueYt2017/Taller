@@ -67,12 +67,6 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 RECAPTCHA_PUBLIC_KEY = '6Ld3j_YpAAAAAAuuZja8GKcyGRbuhxEwTBwEyfmM'
 RECAPTCHA_PRIVATE_KEY = '6Ld3j_YpAAAAADLgUtGclbiUDBVwSxt4ke-_0CCy'
 
-# CONFIG AXES
-AUTHENTICATION_BACKENDS = [
-    'axes.backends.AxesStandaloneBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -82,14 +76,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # AXES
     'axes.middleware.AxesMiddleware',
 ]
-
-# CONFIG AXES
-AXES_FAILURE_LIMIT = 3 # NUMERO DE INTENTOS FALLIDOS
-AXES_COOLOFF_TIME = timedelta(minutes=3) # EL TIEMPO DE ESPERA ANTES DE PERMITIR OTRO LOGIN
-AXES_LOCKOUT_URL = 'account_locked'
-AXES_RESET_ON_SUCCESS = True # RESTABLECE EL CONTADOR CUANDO SE LOGEA
 
 ROOT_URLCONF = 'Taller.urls'
 
@@ -203,3 +192,15 @@ cloudinary.config(
     api_key = '434493841786621',
     api_secret = '_K8Be2qlwvtVIZyWUyYSRDwpKG4'
 )
+
+# CONFIG AXES
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# CONFIG AXES
+AXES_FAILURE_LIMIT = 3 # NUMERO DE INTENTOS FALLIDOS
+AXES_COOLOFF_TIME = timedelta(minutes=3) # EL TIEMPO DE ESPERA ANTES DE PERMITIR OTRO LOGIN
+AXES_LOCKOUT_URL = '/account_locked'
+AXES_RESET_ON_SUCCESS = True # RESTABLECE EL CONTADOR CUANDO SE LOGEA

@@ -13,7 +13,8 @@ router.register('Producto', ProductosViewset)
 
 urlpatterns = [
     # AUTH
-    path('login', login_view, name="login"),
+    path('login', login_view, name="login2"),
+    path('accounts/login/', login_redirect, name="login_redirect"),
     path('register', register, name="register"),
     path('logout', logout_view, name="logout2"),
 
@@ -22,7 +23,7 @@ urlpatterns = [
     path('reset_password_sent', auth_views.PasswordResetDoneView.as_view(template_name="registration/password_reset_done.html"), name='password_reset_done'),
     path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name="registration/password_reset_confirm.html"), name='password_reset_confirm'),
     path('reset_password_complete', auth_views.PasswordResetCompleteView.as_view(template_name="registration/password_reset_complete.html"), name='password_reset_complete'),
-    path('account_locked',account_locked, name="account_locked"),
+    path('account_locked', account_locked, name="account_locked"),
     
     # PAGINAS
     path('', home, name="home"),

@@ -8,14 +8,16 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.template.loader import get_template, render_to_string
 from django.views import View
 from django.views.generic import ListView
-from rest_framework import viewsets, filters
+from rest_framework import filters, viewsets
 from rest_framework.renderers import JSONRenderer
 from xhtml2pdf import pisa
 
@@ -27,7 +29,7 @@ from .models import *
 from .models import Producto
 from .serializers import *
 from .utils import render_to_pdf
-from django.db.models import Q
+
 
 #API
 def usuariosapi(request):
@@ -49,10 +51,30 @@ class ProductosViewset(viewsets.ModelViewSet):
 
 # AUTH
 def login_view(request):
+    aux = {
+        'form' : AuthenticationForm()
+    }
     if request.user.is_authenticated:
+        messages.info(request, 'Ya estás logeado')
         return redirect(to="home")
+    
+    if request.method == 'POST':
+        aux['form'] = AuthenticationForm(request, data=request.POST)
+        if aux['form'].is_valid():
+            username = aux['form'].cleaned_data.get('username')
+            password = aux['form'].cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            messages.success(request, 'Inicio de sesión exitoso')
+            return redirect(to="home")
+        else:
+            messages.error(request, 'Nombre de usuario o contraseña incorrectos')
+    
+    return render(request, 'registration/login.html', aux)
 
-    return render(request, 'registration/login.html')
+
+def login_redirect(request):
+    return redirect('login2')
 
 def register(request):
     aux = {
@@ -60,6 +82,7 @@ def register(request):
     }
 
     if request.user.is_authenticated:
+        messages.info(request, 'Por favor, cierre sesión para registrarse.')
         return redirect(to="home")
 
     if request.method == 'POST':
@@ -67,13 +90,13 @@ def register(request):
         if formulario.is_valid():
             user = formulario.save()
             #ASIGNAMOS UN GRUPO AL USUARIO CREADO
-            grupo = Group.objects.get(name='Usuarios')
+            grupo = Group.objects.get(name='Usuario')
             user.groups.add(grupo)
             # MENSAJE
             messages.success(request, 'Usuario Registrado')    
             # AUTENTICA Y LOGEA
-            user = authenticate(username=formulario.cleaned_data['username'],password=formulario.cleaned_data['password1'])
-            login( request, user)
+            user = authenticate(request=request, username=formulario.cleaned_data['username'],password=formulario.cleaned_data['password1'])
+            login(request, user)
             # LO MANDA A UNA PAGINA
             return redirect(to="home")
         else:
@@ -85,7 +108,10 @@ def logout_view(request):
     return redirect(to="home")
 
 def account_locked(request):
-    return render(request, 'registration/account_locked.html')
+    aux = {
+        'LOCKOUT_TIME': int(settings.AXES_COOLOFF_TIME.total_seconds() // 60)
+    }
+    return render(request, 'registration/account_locked.html', aux)
 
 # RECUPERAR CONTRASEÑA Y CAMBIAR
 def recuperar_contrasena(request):
