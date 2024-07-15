@@ -348,7 +348,6 @@ def historial_compras(request):
     }
     return render(request, 'core/pages/historial_compras.html', aux)
 
-@login_required
 class GeneratePdf(View):
     def get(self, request, *args, **kwargs):
         try:
