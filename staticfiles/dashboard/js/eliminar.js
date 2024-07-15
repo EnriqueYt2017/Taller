@@ -66,3 +66,26 @@ function eliminarVehiculo(id) {
         }
     });
 };
+
+function eliminarVenta(id) {
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: "¡No podrás revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "¡Sí!",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Venta eliminada!",
+                text: "La venta ha sido eliminada.",
+                icon: "success"
+            }).then(() => {
+                window.location.href = "/dashboard/ventas/eliminar/" + id;
+            });
+        }
+    });
+}

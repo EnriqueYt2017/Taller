@@ -51,9 +51,18 @@ class Producto(AdminConfirmMixin, models.Model):
 
 class Venta(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
-    total = models.IntegerField()
-    productos = models.CharField(max_length=255)
+    total = models.IntegerField(default=0)
+    total_usd = models.DecimalField(default=0, max_digits=1000, decimal_places=2)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.fecha} -> {self.total}'
+        return f'{self.fecha} -> {self.id}'
+
+class Producto_Venta(models.Model):
+    Venta = models.ForeignKey(Venta, on_delete=models.CASCADE, null=False, blank=False, related_name='productos')
+    Producto = models.ForeignKey(Producto, on_delete=models.CASCADE, null=False, blank=False)
+    cantidad = models.IntegerField(default=0)
+    acumulado = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.id}'

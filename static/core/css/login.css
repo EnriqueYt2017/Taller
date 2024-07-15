@@ -79,6 +79,16 @@ html {
   margin-bottom: 10px;
 }
 
+.login-box form .btn-login:hover {
+  background: #f49803;
+
+  border-radius: 5px;
+  box-shadow: 0 0 5px #f4c803,
+    0 0 25px #bd9d0b,
+    0 0 50px #f4e403,
+    0 0 100px #d5cf1e;
+}
+
 .login-box form .btn-login input {
   background-color: transparent;
   color: white;

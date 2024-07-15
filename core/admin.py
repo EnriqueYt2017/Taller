@@ -27,7 +27,11 @@ class ProductoModelAdmin(AdminConfirmMixin, ModelAdmin):
 
 class VentaModelAdmin(AdminConfirmMixin, ModelAdmin):
     confirm_change = True
-    confirmation_fields = ['fecha', 'total', 'productos', 'usuario']
+    confirmation_fields = ['fecha', 'total', 'total_usd', 'usuario']
+
+class ProductoVentaModelAdmin(AdminConfirmMixin, ModelAdmin):
+    confirm_change = True
+    confirmation_fields = ['Venta', 'Producto', 'cantidad', 'total']
 
 # Register your models here.
 admin.site.register(Vehiculo, VehiculoModelAdmin)
@@ -36,3 +40,4 @@ admin.site.register(Mantenimiento, MantenimientoModelAdmin)
 admin.site.register(AgendarHora, AgendarHoraModelAdmin)
 admin.site.register(Producto, ProductoModelAdmin)
 admin.site.register(Venta, VentaModelAdmin)
+admin.site.register(Producto_Venta, ProductoVentaModelAdmin)

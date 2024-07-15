@@ -1,6 +1,4 @@
 from django.urls import include, path
-from .views import GeneratePdf
-
 from .views import *
 
 urlpatterns = [
@@ -20,7 +18,9 @@ urlpatterns = [
     path('dashboard/vehiculos/agregar', agregar_vehiculo, name='dashboard-agregar-vehiculo'),
     path('dashboard/vehiculos/editar/<id>', editar_vehiculo, name='editar-vehiculo'),
     path('dashboard/vehiculos/eliminar/<id>', eliminar_vehiculo, name='eliminar-vehiculo'),
-
-    path('dashboard/templates/index', index, name='index'),
-    path('pdf/', GeneratePdf.as_view(),name='pdf'),
+    # Ventas
+    path('dashboard/ventas', ventas, name='dashboard-ventas'),
+    path('dashboard/ventas/agregar', agregar_venta, name='dashboard-agregar-venta'),
+    path('dashboard/ventas/editar/<id>', editar_venta, name='editar-venta'),
+    path('dashboard/ventas/eliminar/<id>', eliminar_venta, name='eliminar-venta'),
 ]

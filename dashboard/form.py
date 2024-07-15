@@ -36,3 +36,9 @@ class VehiculosForm(ModelForm):
     class Meta:
         model = Vehiculo
         fields = '__all__'
+
+class VentasForm(ModelForm):
+    captcha = ReCaptchaField()
+    class Meta:
+        model = Venta
+        fields = '__all__'

@@ -1,25 +1,42 @@
+from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.views.generic import View
 
 from core.models import *
 
 from .form import *
 from .models import *
-
 from .utils import render_to_pdf
-from django.views.generic import View
-from django.http import HttpResponse
-
 
 # Create your views here.
 @permission_required('core.view_dashboard')
 def dashboard(request):
+    usuarios = User.objects.all()
+    productos = Producto.objects.all()
+    vehiculos = Vehiculo.objects.all()
+    ventas = Venta.objects.all()
+    # Mostrar ventas en un arreglo de cada mes dentro de este año
+    ventas_mes = []
+    for i in range(1, 13):
+        ventas_mes.append(ventas.filter(fecha__year=datetime.now().year, fecha__month=i).count())
+    stats = [
+        usuarios.count(),
+        productos.count(),
+        vehiculos.count(),
+        ventas.count()
+    ]
     aux = {
-        'segment': 'index'
+        'segment': 'index',
+        'ventas_mes': ventas_mes,
+        'anio': datetime.now().year,
+        'stats': stats
     }
     
     return render(request, 'dashboard/pages/index.html', aux)
@@ -219,10 +236,66 @@ def eliminar_vehiculo(request, id):
         messages.error(request, 'Error al eliminar el vehículo')
 
 
-def index(request):
-    return render(request, 'dashboard/templates/index.html')
+# Ventas
+@permission_required('core.view_venta')
+def ventas(request):
+    vents = Venta.objects.all()
+    # PAGINADOR
+    paginator = Paginator(vents, 10) # MUESTRA 10 DATOS
+    page_number = request.GET.get('page') # OBTENEMOS LA PAGINA
+    page_obj = paginator.get_page(page_number)
+    aux = {
+        'segment': 'ventas',
+        'page_obj': page_obj
+    }
+    
+    return render(request, 'dashboard/pages/ventas/ventas.html', aux)
 
-class GeneratePdf(View):
-    def get(self, request, *args, **kwargs):
-        pdf = render_to_pdf('dashboard/templates/reports.html')
-        return HttpResponse(pdf, content_type='application/pdf')
+@permission_required('core.add_venta')
+def agregar_venta(request):
+    aux = {
+        'segment': 'ventas',
+        'form': VentasForm()
+    }
+
+    if request.method == 'POST':
+        formulario = VentasForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            aux['form'] = formulario
+            messages.success(request, 'Venta agregada')
+        else:
+            aux['form'] = formulario
+            messages.error(request, 'Error al agregar la venta')
+    
+    return render(request, 'dashboard/pages/ventas/agregar_venta.html', aux)
+
+@permission_required('core.change_venta')
+def editar_venta(request, id):
+    venta = Venta.objects.get(id=id)
+    aux = {
+        'segment': 'ventas',
+        'form': VentasForm(instance=venta)
+    }
+
+    if request.method == 'POST':
+        formulario = VentasForm(data=request.POST, instance=venta, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            aux['form'] = formulario
+            messages.success(request, 'Venta modificada')
+        else:
+            aux['form'] = formulario
+            messages.error(request, 'Error al modificar la venta')
+    
+    return render(request, 'dashboard/pages/ventas/editar_venta.html', aux)
+
+@permission_required('core.delete_venta')
+def eliminar_venta(request, id):
+    venta = Venta.objects.get(id=id)
+    if venta:
+        venta.delete()
+        messages.success(request, 'Venta eliminada')
+        return redirect(to="dashboard-ventas")
+    else:
+        messages.error(request, 'Error al eliminar la venta')

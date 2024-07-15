@@ -1,5 +1,6 @@
 {% extends 'core/layout/base.html' %}
 {% load static %}
+{% load humanize %}
 {% block contenido %}
 <div id="carrusel-contenido">
     <div id="carrusel-caja">
@@ -24,7 +25,7 @@
                         <div class="car__search">
                             <h5>Buscar Producto</h5>
                             <form method="GET">
-                                <input class="search_fields" autocomplete="on" type="text" name="buscar" value="{{ request.GET.buscar }}" placeholder="Search...">
+                                <input class="search_fields" autocomplete="on" type="text" name="buscar" value="{{ request.GET.buscar }}" placeholder="Buscar...">
                                 <button type="submit"><i class="fa fa-search"></i></button>
                             </form>
                         </div>
@@ -38,6 +39,7 @@
                     </div>
                 </div>
                 <div class="col-lg-9">
+                    {% include 'core/includes/paginator.html' %}
                     <div class="row">
                         {% for producto in page_obj %}
                         <div class="col-lg-4 col-md-4">
@@ -50,7 +52,7 @@
                                         <div class="card-body" style="width: 194px; height: 230px;">
                                             <h5 class="card-tittle" style="width: 194px; height: 96px;">{{producto.nombre}}</h5>
                                             <p class="card-text">{{producto.categoria}}</p>
-                                            <p class="card-text">${{producto.precio}}</p>
+                                            <p class="card-text">${{producto.precio|intcomma}}</p>
                                             <a href="{% url 'pro_add' producto.id %}" class="btn btn-primary">Agregar al
                                                 carrito</a>
                                         </div>
@@ -64,37 +66,7 @@
                         </div>
                         {% endfor %}
                     </div>
-                    <ul class="pagination justify-content-center py-2">
-                        {% if page_obj.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page=1">&laquo; Primera</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-                        </li>
-                        {% endif %}
-                    
-                        {% for num in page_obj.paginator.page_range %}
-                        {% if page_obj.number == num %}
-                        <li class="page-item active">
-                            <a class="page-link" href="#">{{ num }}</a>
-                        </li>
-                        {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                        </li>
-                        {% endif %}
-                        {% endfor %}
-                    
-                        {% if page_obj.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
-                        </li>
-                        {% endif %}
-                    </ul>
+                    {% include 'core/includes/paginator.html' %}
                 </div>
             </div>
     </section>

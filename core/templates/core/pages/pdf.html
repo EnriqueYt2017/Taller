@@ -1,12 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compra</title>
+    <title>Boleta #{{venta.id}}</title>
 </head>
 <body>
-    <title>GRACIAS POR TU COMPRA</title>
-    <a class="nav-link" href="{% url 'pdf' %}">DESCARGAR REPORTE PDF</a>
+    <div class="container">
+        {% include 'core/includes/report.html' %}
+    </div>
 </body>
 </html>

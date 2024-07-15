@@ -7,8 +7,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.models import Group
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import Group
 from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -24,26 +24,42 @@ from xhtml2pdf import pisa
 from core.Carrito import Carrito
 
 from .form import *
-from .Mindicator import Mindicador
 from .models import *
 from .models import Producto
 from .serializers import *
 from .utils import render_to_pdf
 
 
+# 404 view
+def custom_404(request, exception):
+    return render(request, 'core/pages/404.html', status=404)
+
 #API
-def usuariosapi(request):
-    response = requests.get('https://rickandmortyapi.com/api/character')
-    response2 = requests.get('https://digimon-api.vercel.app/api/digimon')
-    usuarios = response.json()
-    digimons = response2.json()
+#UTILIZAMOS LOS VIEWSET PARA MANEJAR LAS SOLICITUDES HTTP (GET,POST,PUT,DELETE)
+class VehiculoViewset(viewsets.ModelViewSet):
+    queryset = Vehiculo.objects.all().order_by('id')
+    serializer_class = VehiculoSerializer
+    renderer_classes = [JSONRenderer]
 
+def generalapi(request):
+    # Realizar las solicitudes GET a las APIs
+    response = requests.get('https://digimon-api.vercel.app/api/digimon')
+    
+    # Convertir las respuestas a JSON
+    digimons = response.json()
+
+    # Paginador para Digimons
+    paginator = Paginator(digimons, 4)  # Muestra 4 datos por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Contexto para la plantilla
     aux = {
-        'lista' : usuarios,
-        'listadigimons' : digimons
+        'page_obj': page_obj,
     }
-    return render(request, 'core/crudapi/index.html', aux)
 
+    # Renderizar la plantilla con el contexto
+    return render(request, 'core/pages/crudapi/index.html', aux)
 class ProductosViewset(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializers
@@ -52,14 +68,14 @@ class ProductosViewset(viewsets.ModelViewSet):
 # AUTH
 def login_view(request):
     aux = {
-        'form' : AuthenticationForm()
+        'form' : CustomUserLoginForm()
     }
     if request.user.is_authenticated:
         messages.info(request, 'Ya estás logeado')
         return redirect(to="home")
     
     if request.method == 'POST':
-        aux['form'] = AuthenticationForm(request, data=request.POST)
+        aux['form'] = CustomUserLoginForm(request, data=request.POST)
         if aux['form'].is_valid():
             username = aux['form'].cleaned_data.get('username')
             password = aux['form'].cleaned_data.get('password')
@@ -121,14 +137,11 @@ def cambiar_clave(request):
     return render(request, 'registration/cambiar_clave.html')
 
 
-#UTILIZAMOS LOS VIEWSET PARA MANEJAR LAS SOLICITUDES HTTP (GET,POST,PUT,DELETE)
-class VehiculoViewset(viewsets.ModelViewSet):
-    queryset = Vehiculo.objects.all()
-    serializer_class = VehiculoSerializer
+
 
 # PAGINAS
 def home(request):
-    vehiculos = Vehiculo.objects.all()
+    vehiculos = Vehiculo.objects.all().order_by('-id')[:3]
     aux = {
         'lista' : vehiculos
     }
@@ -197,8 +210,12 @@ def vehiculos(request):
             Q(transmision__icontains = busqueda) |
             Q(capacidad__icontains = busqueda)
         )
+    
+    paginator = Paginator(vehiculos, 9) # MUESTRA 9 DATOS
+    page_number = request.GET.get('page') # OBTENEMOS LA PAGINA
+    page_obj = paginator.get_page(page_number)
     aux = {
-        'lista' : vehiculos,
+        'page_obj' : page_obj,
         'breadcrumb' : {
             'title' : 'Listado de autos',
             'links' : ['Listado']
@@ -209,9 +226,6 @@ def vehiculos(request):
 
 def informacion_auto(request):
     return render(request, 'core/pages/informacion_auto.html')
-
-def listado_autos(request):
-    return render(request, 'core/pages/listado_autos.html')
 
 # PRODUCTOS
 def productos(request):
@@ -224,7 +238,7 @@ def productos(request):
         )
 
     # PAGINADOR
-    paginator = Paginator(productos, 9) # MUESTRA 10 DATOS
+    paginator = Paginator(productos, 9) # MUESTRA 9 DATOS
     page_number = request.GET.get('page') # OBTENEMOS LA PAGINA
     page_obj = paginator.get_page(page_number)
     aux = {
@@ -288,21 +302,58 @@ class SearchVehiclesView(View):
 
 #LISTADO DE PRODUCTOS PDF, CON LA CLASSE CARRITOCOMPLETAR
 def carrito_completar(request):
-    body = json.loads(request.body)
-    productos = body['items']
-    total = body['total']
-    total_usd = body['total_usd']
-    aux = {
-        'productos': productos,
-        'total': total,
-        'total_usd': total_usd
-    }
-    # registrar en el modelo de ventas
-    ventas = Venta.objects.create(total=total, productos=productos, usuario=request.user)
-    ventas.save()
-    carrito = Carrito(request)
-    carrito.limpiar()
-    return redirect('compra')
+    if request.method == "POST":
+        data = json.loads(request.body)
+        ventas = Venta.objects.create(total=data['total'], total_usd=data['total_usd'], usuario=request.user)
+        ventas.save()
+        for producto in request.session["carrito"].items():
+            pro = Producto.objects.get(id=producto[1]["producto_id"])
+            acumulado = producto[1]["acumulado"]
+            Producto_Venta.objects.create(Venta=ventas, Producto=pro, cantidad=producto[1]["cantidad"], acumulado=acumulado)
+        
+        carrito = Carrito(request)
+        carrito.limpiar()
+        return JsonResponse({'message': 'Venta completada', 'id_venta': ventas.id})
 
 def comprar(request):
     return render(request, 'core/pages/compra.html')
+
+def compra(request, venta_id):
+    try:
+        venta = Venta.objects.get(id=venta_id)
+        if venta.usuario != request.user and not request.user.has_perm('core.view_venta'):
+            return render(request, 'core/pages/404.html')
+        aux = {
+            'venta' : venta,
+            'productos' : venta.productos.all()
+        }
+        return render(request, 'core/pages/compra.html', aux)
+    except Venta.DoesNotExist:
+        return render(request, 'core/pages/404.html')
+
+def historial_compras(request):
+    ventas = Venta.objects.filter(usuario=request.user)
+    paginator = Paginator(ventas, 5) # MUESTRA 5 DATOS
+    page_number = request.GET.get('page') # OBTENEMOS LA PAGINA
+    page_obj = paginator.get_page(page_number)
+    aux = {
+        'page_obj' : page_obj
+    }
+    return render(request, 'core/pages/historial_compras.html', aux)
+
+class GeneratePdf(View):
+    def get(self, request, *args, **kwargs):
+        try:
+            venta = Venta.objects.get(id=kwargs['venta_id'])
+            if venta.usuario != request.user and not request.user.has_perm('core.view_venta'):
+                return render(request, 'core/pages/404.html')
+            aux = {
+                'venta' : venta,
+                'productos' : venta.productos.all()
+            }
+            pdf = render_to_pdf('core/pages/pdf.html', aux)
+            return HttpResponse(pdf, content_type='application/pdf')
+        except Venta.DoesNotExist:
+            return render(request, 'core/pages/404.html')
+
+

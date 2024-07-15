@@ -8,7 +8,9 @@ from .views import *
 # CONFIGURACIÓN PARA API
 router = routers.DefaultRouter()
 router.register('Producto', ProductosViewset)
-# router.register('Vehiculos', VehiculoViewset)
+router.register('vehiculos', VehiculoViewset) 
+
+
 
 
 urlpatterns = [
@@ -31,15 +33,16 @@ urlpatterns = [
     path('agendar_hora', agendar_hora, name="agendar_hora"),
     path('contactos', contactos, name="contactos"),
     path('formulario', formulario, name="formulario"),
+    path('historial_compras', historial_compras, name="historial_compras"),
 
     # API
     path('api' , include(router.urls)),
+    path('generalapi' , generalapi, name="generalapi"), 
     # path('api/productos', ProductoList.as_view(), name='productos_api'),
     # path('usuarios_api', usuarios_api, name="usuarios_api"),
 
     # VEHICULOS
     path('informacion_auto', informacion_auto, name="informacion_auto"),
-    path('listado_autos', listado_autos, name="listado_autos"),
     path('vehiculos', vehiculos, name="vehiculos"),
 
     # PRODUCTOS
@@ -55,4 +58,6 @@ urlpatterns = [
     path('carrito/limpiar', limpiar_carrito, name= "car_cls"),
     path('carrito_completar', carrito_completar, name="carrito_completar"),
     path('comprar', comprar, name="comprar"),
+    path('compra/<int:venta_id>', compra, name="compra"),
+    path('compra/<int:venta_id>/pdf', GeneratePdf.as_view(), name='compra_pdf'),
 ]
