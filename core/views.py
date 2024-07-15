@@ -136,9 +136,6 @@ def recuperar_contrasena(request):
 def cambiar_clave(request):
     return render(request, 'registration/cambiar_clave.html')
 
-
-
-
 # PAGINAS
 def home(request):
     vehiculos = Vehiculo.objects.all().order_by('-id')[:3]
@@ -228,6 +225,7 @@ def informacion_auto(request):
     return render(request, 'core/pages/informacion_auto.html')
 
 # PRODUCTOS
+@login_required
 def productos(request):
     busqueda = request.GET.get('buscar')
     productos = Producto.objects.all()
@@ -248,6 +246,7 @@ def productos(request):
 
     return render(request, 'core/pages/productos.html',aux)
 
+@login_required
 def agregar_producto(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
@@ -256,6 +255,7 @@ def agregar_producto(request, producto_id):
     return redirect("productos")
 
 # CARRITO
+@login_required
 def carrito(request):
     productos = Producto.objects.all()
 
@@ -268,12 +268,14 @@ def carrito(request):
 
     return render(request, 'core/pages/carrito.html', {'producto': productos})
 
+@login_required
 def agregar_carrito(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.agregar(producto)
     return redirect("carrito")
 
+@login_required
 def eliminar_carrito(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
@@ -281,12 +283,14 @@ def eliminar_carrito(request, producto_id):
     messages.success(request, 'Producto eliminado del carrito')
     return redirect("carrito")
 
+@login_required
 def restar_carrito(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
     carrito.restar(producto)
     return redirect("carrito")
 
+@login_required
 def limpiar_carrito(request):
     carrito = Carrito(request)
     carrito.limpiar()
@@ -315,9 +319,11 @@ def carrito_completar(request):
         carrito.limpiar()
         return JsonResponse({'message': 'Venta completada', 'id_venta': ventas.id})
 
+@login_required
 def comprar(request):
     return render(request, 'core/pages/compra.html')
 
+@login_required
 def compra(request, venta_id):
     try:
         venta = Venta.objects.get(id=venta_id)
@@ -331,6 +337,7 @@ def compra(request, venta_id):
     except Venta.DoesNotExist:
         return render(request, 'core/pages/404.html')
 
+@login_required
 def historial_compras(request):
     ventas = Venta.objects.filter(usuario=request.user)
     paginator = Paginator(ventas, 5) # MUESTRA 5 DATOS
@@ -341,6 +348,7 @@ def historial_compras(request):
     }
     return render(request, 'core/pages/historial_compras.html', aux)
 
+@login_required
 class GeneratePdf(View):
     def get(self, request, *args, **kwargs):
         try:
